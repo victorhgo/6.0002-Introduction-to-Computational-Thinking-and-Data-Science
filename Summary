@@ -2,7 +2,7 @@
 
 ## Lectures
 - [X] Lecture 1 - Introduction and Optimization Problems
-- [ ] Lecture 2 - Optimization Problems
+- [X] Lecture 2 - Optimization Problems
 - [ ] Lecture 3 - Graph-theoretic Models
 - [ ] Lecture 4 - Stochastic Thinking
 - [ ] Lecture 5 - Random Walks
@@ -31,7 +31,7 @@ Textbook used in the lectures: _Introduction to Computation and Programming Usin
 **Readings**
 
 - [ ] Chapter 12.1, Chapter 5.4 (on lambda functions) - Lecture 1
-- [ ] Chapter 13
+- [ ] Chapter 13 - Lecture 2
 - [ ] Chapter 12.2
 - [ ] Chapter 14 
 - [ ] Chapter 11, Chapter 14

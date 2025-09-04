@@ -229,6 +229,4 @@ Why we get different answers? A greedy algorithm makes a sequence of local optim
 
 ### The Pros and Cons of Greedy Algorithms
 
-While greedy algorithms are easy to implement and really efficient computationally, they does not always yeld the best solution and it does not even know how good the approximation is. Next chapter we will look finding truly optimal solutions.
-
-
+While greedy algorithms are easy to implement and really efficient computationally, they do not always yeld the best solution and it does not even know how good the approximation is. Next chapter we will look finding truly optimal solutions.
