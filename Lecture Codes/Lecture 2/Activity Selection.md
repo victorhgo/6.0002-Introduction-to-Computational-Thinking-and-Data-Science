@@ -40,7 +40,7 @@ By sorting the activity list by finishing time, I can apply a greedy selection t
 |    A9    |   8   |   12   |
 |    A10   |   2   |   14   |
 
-## Define the Class Activity
+## Define Class Activity
 
 I can start by defining a class ```Activity``` that will ensure me a clean, structured objects instead of raw lists, which will make my code easier to debug when needed. A few getter methods which will help me fetch data from this object is also defined here: ```getName``` will get the activity's name, ```getStart``` and ```getFinish``` will get the start and finish time for each activity.
 
@@ -70,7 +70,7 @@ class Activity(object):
         return self.__str__()
 ```
 
-## Define the Build Dataset Function
+## Define Build Dataset Function
 
 Now I can define a function to build my activity's dataset object with the activities names, start and finish times.
 
@@ -87,7 +87,7 @@ def buildActivityDataset(activity, start, finish):
     return dataset
 ```
 
-## Define the Sort Function
+## Define Sort Function
 
 After performing some tests for sorting order (increasing, decresing), I decided to go with sorting activities by their finish times in **ascending order**, ensuring that I can meet the greedy strategy of *picking as the first element of my schedule, the activity that finishes the earliest*. This will be very important for the greedy selection later.
 
@@ -102,7 +102,7 @@ def sortFinishTime(unsortedList):
     return sortedList
 ```
 
-## Implementing the Greedy Selection
+## Implementing Greedy Selection
 
 After sorting the activity list by their finish time, I need to iterate through the sorted list and select activities one by one, ensuring next activity's start time is not less than the finish time of the last chosen activity.
 
@@ -141,7 +141,7 @@ def greedySelection(dataset):
     return bestSchedule
 ```
 
-## Testing the algorithm with the given dataset
+## Testing the algorithm with given dataset
 
 We can now run a test and check if the actual output meets our expected output. Because the Activity ```a1``` starts at 01h and finishes at 04h, meaning the next one we can attend is Activity ```a2``` that starts at 05h and finishes at 07h. The last one we can attend following this schedule is Activity ```a8``` that starts at 08h and finishes at 11h. The expected output for this algorithm is:
 

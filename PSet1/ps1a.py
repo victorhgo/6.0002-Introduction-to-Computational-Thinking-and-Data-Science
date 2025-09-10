@@ -1,7 +1,7 @@
 ###########################
 # 6.0002 Problem Set 1a: Space Cows 
 # Name: Victor Correa   
-# Time: 
+# Time: 3h35min
 
 from ps1_partition import get_partitions
 import time
@@ -10,7 +10,7 @@ import time
 # Part A: Transporting Space Cows
 #================================
 
-# Problem 1
+# Problem 1 - Completed in 35 minutes
 def load_cows(filename):
     """
     Read the contents of the given file.  Assumes the file contents contain
@@ -23,11 +23,26 @@ def load_cows(filename):
     Returns:
     a dictionary of cow name (string), weight (int) pairs
     """
-    # TODO: Your code here
-    pass
+    file = open(filename, 'r')
 
-# Problem 2
-def greedy_cow_transport(cows,limit=10):
+    #Build cows dictionary
+    cows = {}
+
+    for lines in file.readlines():
+
+        cowName = lines.split(',')[0]
+        cowWeight = lines.split(',')[1]
+
+        cows[cowName] = (int(cowWeight))
+
+    # Closes the file
+    file.close()
+
+    return cows
+    
+
+# Problem 2 - Completed in 3 hours
+def greedy_cow_transport(cows,limit):
     """
     Uses a greedy heuristic to determine an allocation of cows that attempts to
     minimize the number of spaceship trips needed to transport all the cows. The
@@ -47,13 +62,42 @@ def greedy_cow_transport(cows,limit=10):
     Returns:
     A list of lists, with each inner list containing the names of cows
     transported on a particular trip and the overall list containing all the
-    trips
-    """
-    # TODO: Your code here
-    pass
+    trips """
+
+    # To ensure the cows are sorted from heavier to lighter
+    cowsCopy = dict(sorted(cows.items(), key=lambda item: item[1], reverse=True))
+
+    # Where we store the best combination of cows for each trip
+    trips = []
+
+    while cowsCopy != {}:
+        # Store each cow selected for the trip
+        currentTrip = []
+
+        # Ship's remaining capacity
+        currentWeight = 0
+
+        # We will create a new dictionary to store every cow that hasn't been selected yet
+        remainingCows = {}
+
+        for cow, weight in list(cowsCopy.items()):
+
+            if (currentWeight + weight) <= limit:
+                currentTrip.append(cow)
+                currentWeight += weight
+            # If cow not selected for trip, store it on the dictionary remainingCows
+            else:
+                remainingCows[cow] = (weight)
+
+        trips.append(currentTrip)
+
+        #cowsCopy will receive all the remaining cows, until empty
+        cowsCopy = remainingCows
+
+    return trips
 
 # Problem 3
-def brute_force_cow_transport(cows,limit=10):
+def brute_force_cow_transport(cows,limit):
     """
     Finds the allocation of cows that minimizes the number of spaceship trips
     via brute force.  The brute force algorithm should follow the following method:
@@ -74,8 +118,13 @@ def brute_force_cow_transport(cows,limit=10):
     transported on a particular trip and the overall list containing all the
     trips
     """
-    # TODO: Your code here
-    pass
+    # To ensure the cows are sorted from heavier to lighter
+    cowsCopy = dict(sorted(cows.items(), key=lambda item: item[1], reverse=True))
+    print(limit)
+
+    for trip in get_partitions(cowsCopy):
+        print(trip)
+
         
 # Problem 4
 def compare_cow_transport_algorithms():
@@ -93,3 +142,20 @@ def compare_cow_transport_algorithms():
     """
     # TODO: Your code here
     pass
+
+if __name__ == '__main__':
+
+    cows = load_cows('ps1_cow_data.txt')
+
+    # Test with limit = 10 first
+    # print(cows)
+    #bestCows = greedy_cow_transport(cows, 10)
+
+    #print(f"Trip: {bestCows}")
+
+    # Test partitions:
+    # for cow in get_partitions(cows):  
+    #     print(cow)
+
+    brutecow = brute_force_cow_transport(cows,10)
+    print(f"Trip: {brutecow}")

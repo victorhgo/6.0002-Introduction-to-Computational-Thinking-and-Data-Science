@@ -470,7 +470,7 @@ Quickly summarization:
 
 - **Dynamic Programming** often yields good performance for a subclass of optimization problems, where the solutions are always correct and it's fast under the right circumstances.
 
-## Exercises and Problems:
+## Exercises to practice
 
 Optimization Problems Exercises
 
@@ -497,17 +497,6 @@ Optimization Problems Exercises
     |    A9    |   8   |   12   |
     |    A10   |   2   |   14   |
 
-
-2. Fractional Knapsack
-
-    - Each item has a weight and a value.
-
-    - You can take fractions of items.
-
-    - Maximize the value for a given weight limit.
-
-    - Approach: Greedy by highest value/weight ratio.
-
 3. Coin Change (Minimum Coins, Greedy version)
 
     - Given coin denominations ```{1, 5, 10, 25}``` and an amount $N$,
@@ -516,51 +505,7 @@ Optimization Problems Exercises
 
     - Approach: Greedy works when the coin system is canonical (like U.S. coins).
 
-4. Huffman Coding
-
-    - Given frequencies of characters, build a prefix-free binary code.
-
-    - Approach: Greedy algorithm using a min-heap.
-
-5. Interval Scheduling with Deadlines
-
-    - Given jobs with deadlines and profits, select the subset of jobs that maximizes profit while meeting deadlines.
-
-    - Approach: Greedy by sorting on profit and scheduling backwards.
-
-**Dynamic Programming Exercises**
-
-6. 0/1 Knapsack Problem
-
-    - Already solved with calories and values.
-
-    - Variation: Add a constraint on the number of items, or consider two dimensions (weight and calories).
-
-7. Coin Change (Number of Ways, DP version)
-
-    - Given coin denominations and a target $N$,
-
-    - Find how many ways to make change for $N$.
-
-    - Approach: Use DP with overlapping subproblems.
-
-8. Longest Increasing Subsequence (LIS)
-
-    - Given a sequence of numbers,
-
-    - Find the length of the longest subsequence that is strictly increasing.
-
-    - Approach: DP with optimal substructure.
-
-9. Matrix Chain Multiplication
-
-    - Given a sequence of matrices,
-
-    - Find the minimum number of scalar multiplications needed to multiply them all.
-
-    - Approach: DP with parenthesization choices.
-
-10. Rod Cutting Problem
+4. Rod Cutting Problem - Completed on 06th September 2025 
 
     - Given a rod of length $n$ and a table of prices for each piece length,
 
@@ -568,15 +513,7 @@ Optimization Problems Exercises
 
     - Approach: DP with optimal substructure.
 
-11. Subset Sum / Partition Problem
-
-    - Given a set of integers,
-
-    - Decide if it can be partitioned into two subsets with equal sum.
-
-    - Approach: DP with boolean states.
-
-12. Fibonacci Numbers with Memoization
+5. Fibonacci Numbers with Memoization - Completed on 03th September 2025
 
     - Classic example of overlapping subproblems.
 
