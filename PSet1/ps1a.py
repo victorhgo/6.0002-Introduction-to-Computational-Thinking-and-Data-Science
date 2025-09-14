@@ -1,7 +1,7 @@
 ###########################
 # 6.0002 Problem Set 1a: Space Cows 
 # Name: Victor Correa   
-# Time: 3h35min
+# Time: 7h25min
 
 from ps1_partition import get_partitions
 import time
@@ -96,7 +96,7 @@ def greedy_cow_transport(cows,limit):
 
     return trips
 
-# Problem 3
+# Problem 3 - Completed in 3h30min
 def brute_force_cow_transport(cows,limit):
     """
     Finds the allocation of cows that minimizes the number of spaceship trips
@@ -118,15 +118,32 @@ def brute_force_cow_transport(cows,limit):
     transported on a particular trip and the overall list containing all the
     trips
     """
-    # To ensure the cows are sorted from heavier to lighter
-    cowsCopy = dict(sorted(cows.items(), key=lambda item: item[1], reverse=True))
-    print(limit)
+    cowsCopy = cows
 
-    for trip in get_partitions(cowsCopy):
-        print(trip)
+    # the bestPartition is the one that no trip exceeds the ship's weight limit and can do it in the most optimal way (less trips)
+    bestPartition = None
 
+    # Let's iterate over each partitions (possible trips) and test for each trip (current trip)
+    for partition in get_partitions(list(cowsCopy.items())):
+        # Suppose all the trips in the partition are valid
+        validPartition = True
+
+        # For each trip in the current partition, test if their weight sum exceeds the ship's limit
+        for trip in partition:
+
+            # If any trip's total weight exceeds the ship's limit, the trip is invalid. Thus the whole partition is invalid
+            if sum(cowWeight for cowName, cowWeight in trip) > limit:
+                validPartition = False
+                break
+
+        # If all the trips in the partition are valid, bestPartition == None for the first best choice and compare the size of partition with the current selected bestPartition
+        if validPartition and (bestPartition == None or len(partition) < len(bestPartition)):
+            bestPartition = partition
+
+    # Return only the trips with cow's name for each trip in the best partition
+    return [[cowName for cowName, weight in trip] for trip in bestPartition]
         
-# Problem 4
+# Problem 4 - Completed in 20 min
 def compare_cow_transport_algorithms():
     """
     Using the data from ps1_cow_data.txt and the specified weight limit, run your
@@ -140,8 +157,23 @@ def compare_cow_transport_algorithms():
     Returns:
     Does not return anything.
     """
-    # TODO: Your code here
-    pass
+    # Load all the cows from ps1_cow_data.txt:
+    cows = load_cows('ps1_cow_data.txt')
+    # Test Brute Force first
+    startBrute = time.time()
+    bruteAlgorithm = brute_force_cow_transport(cows,12)
+    endBrute = time.time()
+
+    print(f"Brute force result: {bruteAlgorithm}")
+    print(f"Brute force ran in {endBrute - startBrute} seconds")
+
+    # Test greedy heuristic
+    startHeuristic = time.time()
+    greedyAlgorithm = greedy_cow_transport(cows,12)
+    endHeuristic = time.time()
+
+    print(f"Greedy Heuristic result: {greedyAlgorithm}")
+    print(f"Greedy heuristic ran in {endHeuristic - startHeuristic} seconds")
 
 if __name__ == '__main__':
 
@@ -153,9 +185,17 @@ if __name__ == '__main__':
 
     #print(f"Trip: {bestCows}")
 
-    # Test partitions:
+    # Test partitions: PASS
     # for cow in get_partitions(cows):  
     #     print(cow)
 
-    brutecow = brute_force_cow_transport(cows,10)
-    print(f"Trip: {brutecow}")
+    #brutecow = brute_force_cow_transport(cows,10)
+    # smallCows = {"Jesse": 6, "Maybel": 3, "Callie": 2, "Maggie": 5}
+    # bruteSmall = brute_force_cow_transport(smallCows, 7)
+    # print(f"Trip: {bruteSmall}")
+    # bestCows = greedy_cow_transport(smallCows, 7)
+    # print(f"Trip: {bestCows}")
+    # Run the test
+    compare_cow_transport_algorithms()
+
+    

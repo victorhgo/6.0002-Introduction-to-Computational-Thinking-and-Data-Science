@@ -1,8 +1,8 @@
-# Problem Set 1 - Space Cows Transportation
+# Problem Set 1.A - Space Cows Transportation
 
     Solution by Victor Correa
-    Time spend on this activity: 3 hours
-    Completed on
+    Time spend on this activity: 7hours 25 minutes
+    Completed on 11th September 2025
 
 How to transport cows across the space when your spaceship has a weight limit and you want to **minimize** the number of trips across the universe.
 
@@ -214,16 +214,195 @@ The final result is then ```[[“Jesse”, “Callie”], [“Maybel”, “Magg
 
 ### Implementation of a brute force algorithm for the cow transport problem
 
-TODO
+In this approach, we need to use ```get_partitions``` which will transform every entry on the dictionary into a group (partition) of every possible trips. We can iterate through this list checking the total weight for each trip to see if it's within the ship's weight limit. If it is, we can consider it a good candidate. Then we can select the best option.
 
+Our best trip partition is the most efficient one. In other words it is the trip combination that can transport every cow across the universe with the **minimum trips possible**.
+
+Before we can start the implementation, let's take a look on a way of using summation in Python for a list with tuples *key,values*, this way we can check each trip combination and compare if the ship is not overweight. But first let's take a look on how Python turns a dictionary into a list:
+
+- Suppose we have a dictionary of *key,value* such that each key is the name of the students and the value is their grades:
+
+```students = {"Jesse": 6, "Walter": 10, "Gustavo": 6, "Hank": 7}```
+
+We can transform this dictionary to a list of tuples such that the tuple will contain the (*key,value*) format:
+
+```py
+# Dictionary of students
+students = {"Jesse": 6, "Walter": 10, "Gustavo": 6, "Hank": 7}
+
+# Transform it to a list of tuples:
+studentList = list(students.items())
+```
+
+Now the dictionary of students will be turn to a list of tuples in the following way:
+
+```studentList = [('Jesse', 6), ('Walter', 10), ('Gustavo', 6), ('Hank', 7)]```
+
+We can now access each name or grade independently by iterating over them. Note that we can use ```_``` indicating that we won't need the first variable ```name```, all that matters to us are their grades (the opposite is also valid):
+
+```py
+# Getting only the grades
+for _, grade in studentList:
+    print(grade)
+
+# Getting only the names
+for name, _ in studentList:
+    print(name)
+```
+
+In the same way to access each item in the tuple, we can use the function ```sum()``` from Python which returns the sum of all items in an iterable. It has the following syntax:
+
+    sum(iterable, start) 
+
+So we can use the same idea as iterable to return the summation of every grade:
+
+```py
+# Store the sum of every grades in grade
+grades = sum(grade for name, grade in studentList)
+```
+
+Back to the initial problem, since we are obtaining lists of every possible trip, we can sum up the weights for each trip and check which violates the ship's limit independently.
+
+We start by creating a copy of cow dictionary which we will call ```cowsCopy```, which won't be sorted. Since we are getting a list of every possible sets, sorting is irrelevant for this approach. We can set a variable ```bestPartition``` which will contain the trips that don't exceed the ship's weight limit. We must initialize it as *None* because the first partition is valid, no cow surpasses the weight limit. Also len(partition) will be the same size of bestPartition, which will fail the later evaluation for best trips.
+
+We are going to iterate on each partition (every trip possible) with:
+
+```py
+for partition in get_partitions(list(cowsCopy.items())):
+```
+
+For the example ```{“Jesse”: 6, “Maybel”: 3, “Callie”: 2, “Maggie”: 5}``` the code above will iterate over the following partitions (trip combination):
+
+```sh
+[[('Callie', 2), ('Jesse', 6), ('Maybel', 3), ('Maggie', 5)]]
+[[('Callie', 2), ('Maggie', 5), ('Maybel', 3)], [('Jesse', 6)]]
+[[('Callie', 2), ('Jesse', 6), ('Maggie', 5)], [('Maybel', 3)]]
+[[('Callie', 2), ('Maggie', 5)], [('Jesse', 6), ('Maybel', 3)]]
+[[('Callie', 2), ('Maggie', 5)], [('Maybel', 3)], [('Jesse', 6)]]
+[[('Jesse', 6), ('Maybel', 3), ('Maggie', 5)], [('Callie', 2)]]
+[[('Maggie', 5), ('Maybel', 3)], [('Callie', 2), ('Jesse', 6)]]
+[[('Maggie', 5), ('Maybel', 3)], [('Jesse', 6)], [('Callie', 2)]]
+[[('Jesse', 6), ('Maggie', 5)], [('Callie', 2), ('Maybel', 3)]]
+[[('Jesse', 6), ('Maggie', 5)], [('Maybel', 3)], [('Callie', 2)]]
+[[('Maggie', 5)], [('Callie', 2), ('Jesse', 6), ('Maybel', 3)]]
+[[('Maggie', 5)], [('Jesse', 6), ('Maybel', 3)], [('Callie', 2)]]
+[[('Maggie', 5)], [('Callie', 2), ('Maybel', 3)], [('Jesse', 6)]]
+[[('Maggie', 5)], [('Maybel', 3)], [('Callie', 2), ('Jesse', 6)]]
+[[('Maggie', 5)], [('Maybel', 3)], [('Jesse', 6)], [('Callie', 2)]]
+```
+
+We now can check which of these partitions (trip combinations) are going to violate the weight limit and exclude them, for that, we initialize the variable ```validPartition``` as *True* and we can validate in the following way:
+
+1. For each trip in partition, if the sum of weights is greater than the shipt's limit, this trip is invalid, thus we set the ```validPartition = False``` and break the check.
+
+2. If all the trips in the partition are valid, we first store it in ```bestPartition```and for each valid consequent partitions, we check if the amount of trips performed for this partition is smaller than the current selected ```bestPartition```. If yes, it means that this partition has a better solution than the last one, which means that we can transport more cow in less trips.
+
+3. After every possible combination of trips are checked (every partition), we will have the best one stored in ```bestPartition```, and we can return a list containing the name of each cow per trip.
+
+In our example, the best combination is: ```[['Maggie', 'Callie'], ['Maybel', 'Jesse']]```
+
+We can also use iteration in the return statement to return only the partition containing the name of the cows in the following way
+
+```return [[cowName for cowName, weight in trip] for trip in bestPartition]```
+
+So instead of returning ```[[('Maggie', 5), ('Callie', 2)], [('Maybel', 3), ('Jesse', 6)]]``` it will return ```[['Maggie', 'Callie'], ['Maybel', 'Jesse']]```
+
+The implementation for this version is:
+
+```py
+def brute_force_cow_transport(cows,limit):
+    """
+    Parameters:
+    cows - a dictionary of name (string), weight (int) pairs
+    limit - weight limit of the spaceship (an int)
+    
+    Returns:
+    A list of lists, with each inner list containing the names of cows
+    transported on a particular trip and the overall list containing all the
+    trips
+    """
+    cowsCopy = cows
+
+    # the bestPartition is the one that no trip exceeds the ship's weight limit and can do it in the most optimal way (less trips)
+    bestPartition = None
+
+    # Let's iterate over each partitions (possible trips) and test for each trip (current trip)
+    for partition in get_partitions(list(cowsCopy.items())):
+        # Suppose all the trips in the partition are valid
+        validPartition = True
+
+        # For each trip in the current partition, test if their weight sum exceeds the ship's limit
+        for trip in partition:
+
+            # If any trip's total weight exceeds the ship's limit, the trip is invalid. Thus the whole partition is invalid
+            if sum(cowWeight for cowName, cowWeight in trip) > limit:
+                validPartition = False
+                break
+
+        # If all the trips in the partition are valid, bestPartition == None for the first best choice and compare the size of partition with the current selected bestPartition
+        if validPartition and (bestPartition == None or len(partition) < len(bestPartition)):
+            bestPartition = partition
+
+    # Return only the trips with cow's name for each trip in the best partition
+    return [[cowName for cowName, weight in trip] for trip in bestPartition]
+```
+
+By running this **brute force** version, we ensure that we are selecting the best combination of trips possible, thus the optimal result relies on selecting which partition has the least amount of trips possible that does not exceeds the ship's weight limit, ensuring that every cow is being transported across the universe in the most optimized way.
 
 ## Problem A.4: Comparing the Cow Transport Algorithms
 
 Implement ```compare_cow_transport_algorithms```, load the cow data in ```ps1_cow_data.txt```, and then run your greedy and brute force cow transport algorithms on the data to find the minimum number of trips found by each algorithm and how long each method takes. Use the default weight limits of 10 for both algorithms.
 
-**Note:** Make sure you’ve tested both your greedy and brute force algorithms before you implement this
+We can measure the time a block of code takes to execute using the time.time() function (from time library):
 
-TODO
+    start = time.time() 
+    ## code to be timed 
+    end = time.time() 
+    print end – start
+
+So we can implement a test for each algorithm as:
+
+```py
+def compare_cow_transport_algorithms():
+    """
+    Using the data from ps1_cow_data.txt and the specified weight limit, run your
+    greedy_cow_transport and brute_force_cow_transport functions here. Use the
+    default weight limits of 10 for both greedy_cow_transport and
+    brute_force_cow_transport.
+    
+    Print out the number of trips returned by each method, and how long each
+    method takes to run in seconds.
+
+    Returns:
+    Does not return anything.
+    """
+    # Load all the cows from ps1_cow_data.txt:
+    cows = load_cows('ps1_cow_data.txt')
+    # Test Brute Force first
+    startBrute = time.time()
+    bruteAlgorithm = brute_force_cow_transport(cows,10)
+    endBrute = time.time()
+
+    print(f"Brute force result: {bruteAlgorithm}")
+    print(f"Brute force ran in {endBrute - startBrute} seconds")
+
+    # Test greedy heuristic
+    startHeuristic = time.time()
+    greedyAlgorithm = greedy_cow_transport(cows,10)
+    endHeuristic = time.time()
+
+    print(f"Greedy Heuristic result: {greedyAlgorithm}")
+    print(f"Greedy heuristic ran in {endHeuristic - startHeuristic} seconds")
+```
+
+Running the test we get the following output:
+
+```py
+Brute force result: [['Henrietta'], ['Maggie', 'Moo Moo', 'Florence'], ['Betsy'], ['Milkshake', 'Millie', 'Lola'], ['Oreo'], ['Herman']]
+Brute force ran in 0.22369980812072754 seconds
+Greedy Heuristic result: [['Betsy'], ['Henrietta'], ['Herman', 'Maggie'], ['Oreo', 'Moo Moo'], ['Millie', 'Milkshake', 'Lola'], ['Florence']]
+Greedy heuristic ran in 1.6927719116210938e-05 seconds
+```
 
 ## Problem A.5: Writeup
 
@@ -231,6 +410,8 @@ Answer the following questions:
 
 1. What were your results from compare_cow_transport_algorithms? Which algorithm runs faster? Why?
 
-2. Does the greedy algorithm return the optimal solution? Why/why not? 3.  Does the brute force algorithm return the optimal solution? Why/why not? 
+The greedy heuristic runs faster because it requires less computation to find a result, which is not the optimal one but it's faster. In the other hand, brute force will analyse every possible combination possible to select the most optimal one, it sacrifices computation to return the most optimised output.
 
-TODO
+2. Does the greedy algorithm return the optimal solution? Why/why not? Does the brute force algorithm return the optimal solution? Why/why not? 
+
+Both algorithm could transport every cow in only 6 trips, which means that both version are returning the most optimal solution for this particular cow's set. But if we increase the amount of cows, the brute force one will return the best result for analysing every possible combination and selecting the best.
