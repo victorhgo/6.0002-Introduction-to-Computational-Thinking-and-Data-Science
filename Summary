@@ -3,8 +3,8 @@
 ## Lectures
 - [X] Lecture 1 - Introduction and Optimization Problems
 - [X] Lecture 2 - Optimization Problems
-- [ ] Lecture 3 - Graph-theoretic Models
-- [ ] Lecture 4 - Stochastic Thinking
+- [X] Lecture 3 - Graph-theoretic Models
+- [X] Lecture 4 - Stochastic Thinking
 - [ ] Lecture 5 - Random Walks
 - [ ] Lecture 6 - Monte Carlo Simulation
 - [ ] Lecture 7 - Confidence Intervals
@@ -19,7 +19,7 @@
 
 ## Problem Sets
 - [X] Pset 1 - Completed on 14th September 2025 
-- [ ] Pset 2
+- [ ] Pset 2 - Start working on it
 - [ ] Pset 3
 - [ ] Pset 4
 - [ ] Pset 5
@@ -31,9 +31,9 @@ Textbook used in the lectures: _Introduction to Computation and Programming Usin
 **Readings**
 
 - [X] Chapter 12.1, Chapter 5.4 (on lambda functions) - Lecture 1
-- [ ] Chapter 13 - Lecture 2
-- [ ] Chapter 12.2 - Lecture 3
-- [ ] Chapter 14 - Lecture 4
+- [X] Chapter 13 - Lecture 2
+- [X] Chapter 12.2 - Lecture 3
+- [X] Chapter 14 - Lecture 4
 - [ ] Chapter 11, Chapter 14 - Lecture 5
 - [ ] Chapter 15.1–15.4, Chapter 16 - Lecture 6
 - [ ] Chapter 16.4, Chapter 17 - Lecture 7

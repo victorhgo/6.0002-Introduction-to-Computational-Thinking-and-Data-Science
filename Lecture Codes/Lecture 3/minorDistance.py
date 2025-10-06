@@ -43,7 +43,7 @@ class weightedEdge(Edge):
         return self.source.getName() + ' -> (' + str(self.weight) + ')'\
                 + self.destiny.getName()
     
-class Diagraph(object):
+class Digraph(object):
     """ Edges is a dictionary mapping each node to a list of its children """
     def __init__(self):
         self.edges = {}
@@ -55,10 +55,11 @@ class Diagraph(object):
         else:
             self.edges[node] = []
     
-    def addEdge(self, edge):
+    def addEdge(self, edge, weight):
         """ Edges are represented by destinations as values in list associated with a source key"""
         source = edge.getSource()
         destiny = edge.getDestination()
+        weight = edge.getWeight()
         
         if not (source in self.edges and destiny in self.edges):
             raise ValueError('Node not in graph')
@@ -88,9 +89,36 @@ class Diagraph(object):
         # Omit final newline
         return result[:-1]
 
-class Graph(Diagraph):
+class Graph(Digraph):
     def addEdge(self, edge):
-        Diagraph.addEdge(self, edge)
+        Digraph.addEdge(self, edge)
         rev = Edge(edge.getDestination(), edge.getSource())
 
-        Diagraph.addEdge(self, rev)
+        Digraph.addEdge(self, rev)
+
+# Cities
+def buildCityGraph():
+    g = Graph()
+
+    for name in ('Boston', 'Providence', 'New York', 'Chicago',
+                 'Denver', 'Phoenix', 'Los Angeles'): # Creates 7 cities nodes
+        g.addNode(Node(name))
+
+    # Associates each node to edges    
+    g.addEdge(weightedEdge(g.getNode('Boston'), g.getNode('Providence'), 80))
+    g.addEdge(weightedEdge(g.getNode('Boston'), g.getNode('New York'), 349))
+    g.addEdge(weightedEdge(g.getNode('Providence'), g.getNode('Boston'), 80))
+    g.addEdge(weightedEdge(g.getNode('Providence'), g.getNode('New York')))
+    g.addEdge(weightedEdge(g.getNode('New York'), g.getNode('Chicago')))
+    g.addEdge(weightedEdge(g.getNode('Chicago'), g.getNode('Denver')))
+    g.addEdge(weightedEdge(g.getNode('Chicago'), g.getNode('Phoenix')))
+    g.addEdge(weightedEdge(g.getNode('Denver'), g.getNode('Phoenix')))
+    g.addEdge(weightedEdge(g.getNode('Denver'), g.getNode('New York')))
+    g.addEdge(weightedEdge(g.getNode('Los Angeles'), g.getNode('Boston')))
+
+    return g
+
+if __name__ == '__main__':
+    cities = buildCityGraph()
+
+    print(f'{cities}')

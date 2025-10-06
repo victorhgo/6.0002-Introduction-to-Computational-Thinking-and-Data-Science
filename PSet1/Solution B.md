@@ -251,4 +251,4 @@ Since the brute force approach has an exponential complexity, our algorithm woul
 
 2. If you were to implement a greedy algorithm for finding the minimum number of eggs needed, what would the objective function be? What would the constraints be? What strategy would your greedy algorithm follow to pick which eggs to take? You do not need to implement a greedy algorithm in order to answer this. 
 
-Already answered on the problem description.
+Already answered the **greedy approach** on the problem description, to have a base for implementing the DP one.

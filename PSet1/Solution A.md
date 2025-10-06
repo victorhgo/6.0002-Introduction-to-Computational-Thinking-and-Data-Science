@@ -8,7 +8,7 @@ How to transport cows across the space when your spaceship has a weight limit an
 
 ## Problem A.1: Loading Cow Data:
 
-First of all, we need to load the data to be used with our program, with the function ```load_cows``` we can do it by reading the file that has the cow's name and weight such data we need it to be loaded in a dictionary where the *key* is the cow's name and the *value* is its weight. A good approach is iterating through each file's line with ```readlines()``` method and attributing the data to the *key,value* pair on the dictionary as:
+First of all, we need to load the data to be used within our program, with the function ```load_cows``` we can do it by reading the file that has the cow's name and weight such data we need it to be loaded in a dictionary where the *key* is the cow's name and the *value* is its weight. A good approach is iterating through each file's line with ```readlines()``` method and attributing the data to the *key,value* pair on the dictionary as:
 
 ```py
 def load_cows(filename):
@@ -21,7 +21,7 @@ def load_cows(filename):
     """
     file = open(filename, 'r')
 
-    #Build cows dictionary
+    # Builds cows dictionary
     cows = {}
 
     for lines in file.readlines():
@@ -61,7 +61,7 @@ def greedy_cow_transport(cows,limit):
     A list of lists, with each inner list containing the names of cows
     transported on a particular trip and the overall list containing all the
     trips """
-    # First thing we need, the copy of cows dictionary and sort to bring the heaviest
+    # First we create a copy of cows dictionary and sort it to bring the heaviest
     # cows for the first trips
     cowsCopy = dict(sorted(cows.items(), key=lambda item: item[1], reverse=True))
     
@@ -90,15 +90,15 @@ Python does not support editing the value of a dictionary directly, so we can as
 
 Notes on the algorithm: By sorting the cows by weight and placing the heaviest ones first, ensuring they will be selected first will not guarantee the most optimal solution, where we do the transportation within the minimum number of trips possible. So let's analyse the following trips:
 
-> Trip: [['Betsy'], ['Henrietta'], ['Herman', 'Maggie'], ['Oreo', 'Moo Moo'], ['Millie', 'Milkshake', 'Lola'], ['Florence']]
+> Trip: ['Betsy'], ['Henrietta'], ['Herman', 'Maggie'], ['Oreo', 'Moo Moo'], ['Millie', 'Milkshake', 'Lola'], ['Florence']
 
-Clearly it's not the most optimized solution, as this could be done is less trips than that. Florence for instance, is traveling alone while she weights only two tons.
+Clearly it's not the most optimized solution, as this could be done is less trips than that. **Florence** for instance, is traveling alone while she weights only two tons.
 
-Another problem is that dictionaries in Python uses way more memory than lists, it's okay to copy and pop a dictionary inside a loop for small inputs, we are testing for only 10 items, but as the number of cows increases, it will add overhead (memory and time consuming on running the program).
+Another problem is that dictionaries in Python uses way more memory than lists, it's okay to copy and pop a dictionary inside a loop for small inputs when we are testing only 10 items, but as the number of cows increases, it will add overhead (memory and time consuming on running the program) to the program.
 
-Now that the implementation helped us figure it out how to solve this problem using the heuristic approach, now it's time to improve it. Analysing it more close, we can conclude the following improvements can be done to make the code better and maybe get some extra performance:
+Now that the implementation helped to figure it out how to solve this problem using the heuristic approach, now it's time to improve the algorithm. By analysing it closely, we can observe that the following improvements can make our code better and perhaps gain some extra performance:
 
-- [X] - Instead of tracking a ```maxWeight```, we can think of it as *ship's remaining capacity for this trip*. It will make our logic more clear for the reader to follow.
+- [X] - Instead of tracking a ```maxWeight```, we can think of it as *ship's remaining capacity for current trip*. It will make our logic more clear for the reader to follow.
 
 Solution: ```remainingCapacity``` is a better name to track ship's remaining capacity for each trip.
 

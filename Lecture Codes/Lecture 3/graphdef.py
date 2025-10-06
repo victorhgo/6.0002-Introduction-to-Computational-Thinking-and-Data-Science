@@ -28,7 +28,7 @@ class Edge(object):
         return self.source.getName() + '->'\
             + self.destiny.getName()
     
-# Weighted Edge
+# Weighted Edge connecting up two nodes
 class weightedEdge(Edge):
     """ Assumes source and destiny are Nodes, weight is a number """
     def __init__(self, source, destiny, weight = 1.0):
@@ -42,7 +42,8 @@ class weightedEdge(Edge):
     def __str__(self):
         return self.source.getName() + ' -> (' + str(self.weight) + ')'\
                 + self.destiny.getName()
-    
+
+
 class Diagraph(object):
     """ Edges is a dictionary mapping each node to a list of its children """
     def __init__(self):
@@ -60,7 +61,7 @@ class Diagraph(object):
         source = edge.getSource()
         destiny = edge.getDestination()
         
-        if not (source in self.edges and destiny in self.edges):
+        if not (source in self.edges and dest in self.edges):
             raise ValueError('Node not in graph')
         
         self.edges[source].append(destiny)
@@ -94,3 +95,7 @@ class Graph(Diagraph):
         rev = Edge(edge.getDestination(), edge.getSource())
 
         Diagraph.addEdge(self, rev)
+
+if __name__ == '__main__':
+    pass
+
