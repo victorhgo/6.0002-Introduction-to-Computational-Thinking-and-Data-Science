@@ -13,7 +13,6 @@ Introduction to Stochastic processes and basic probability theory.
 - [Actual Probability versus Sample Probability](#difference-between-actual-probability-and-sample-probability)
 - [Birthday Problem](#birthday-problem)
 
-
 ## What is Stochastic Thinking
 
 So far we have focused on problems that can be solved by a **deterministic program**, which given the same initial state and inputs, it will always produce the exact same outputs following the same sequence of operations. This predictability that makes deterministic programs easy to test and debug, also their reliability, because any behaviour and bugs for instance, can be reproduced by just providing the same conditions again. Unfortunately these computations aren't sufficient to tackle some problems as we will see.

@@ -1,7 +1,7 @@
 # 6.0002 Problem Set 2
 # Graph optimization
 # Name: Victor Correa
-# Time:
+# Time: 4h30m
 
 # =============================================
 # Finding shortest paths through MIT buildings
@@ -19,9 +19,9 @@ from graph import Digraph, Node, WeightedEdge
 # do the graph's edges represent? Where are the distances
 # represented?
 #
-# Answer:
-#
-
+# Answer: The nodes represent buildings, the edges represent the distance
+# between two buildings and also the distance outdoor. The distances are represented
+# in the WeightedEdge
 
 # Problem 2b: Implementing load_map
 def load_map(map_filename):
@@ -42,23 +42,50 @@ def load_map(map_filename):
     Returns:
         a Digraph representing the map
     """
+    print(f"Loading map from file {map_filename}...")
 
-    # TODO
-    print("Loading map from file...")
+    # Create a Digraph g object
+    g = Digraph()
+
+    with open(map_filename, 'r') as file:
+
+        # Iterate over each file's line
+        for line in file:
+            if line.strip() == '':
+                continue
+        
+            # Split line into the following components: source building, dest building, total distance, outdoor distance
+            src_building, dest_building, total_dist, outdoor_dist = line.split()
+
+            src = Node(src_building)
+            dest = Node(dest_building)
+
+            # Add the nodes to the Diagraph
+            if not g.has_node(src):
+                g.add_node(src)
+            if not g.has_node(dest):
+                g.add_node(dest)
+
+            # Create the weighted edges
+            edge = WeightedEdge(src, dest, int(total_dist), int(outdoor_dist))
+            g.add_edge(edge)
+
+    return g
 
 # Problem 2c: Testing load_map
 # Include the lines used to test load_map below, but comment them out
+#    g = load_map("test_load_map.txt")
+#    print(g)
 
 
-#
-# Problem 3: Finding the Shorest Path using Optimized Search Method
-#
+# Problem 3: Finding the Shortest Path using Optimized Search Method
+
 # Problem 3a: Objective function
-#
+
 # What is the objective function for this problem? What are the constraints?
-#
-# Answer:
-#
+
+# Answer: The objective of this function is to find the best path between buildings, avoiding
+# spending too much time outdoors (the constraints for this problem)
 
 # Problem 3b: Implement get_best_path
 def get_best_path(digraph, start, end, path, max_dist_outdoors, best_dist,
@@ -95,8 +122,51 @@ def get_best_path(digraph, start, end, path, max_dist_outdoors, best_dist,
         If there exists no path that satisfies max_total_dist and
         max_dist_outdoors constraints, then return None.
     """
-    # TODO
-    pass
+    if not (digraph.has_node(start) and digraph.has_node(end)):
+        raise ValueError('Node not in graph')
+    
+    # To avoid mutation on the recursive calls
+    path = [path[0] + [start], path[1], path[2]]
+
+    # Base case: reached the destination
+    if start == end:
+        return path
+    
+    # Check all outgoing edges
+    for edge in digraph.get_edges_for_node(start):
+        dest = edge.get_destination()
+
+        # To avoid cycles
+        if dest in path[0]:
+            continue
+
+        # Distances: total and outdoor
+        total_dist = path[1] + edge.get_total_distance()
+        outdoor_dist = path[2] + edge.get_outdoor_distance()
+
+        # Constraints for travel
+        if outdoor_dist > max_dist_outdoors:
+            continue
+        if best_dist is not None and total_dist >= best_dist:
+            continue
+    
+        # Recursive call
+        new_path = get_best_path(digraph, dest, end, [path[0], 
+                                total_dist, outdoor_dist], max_dist_outdoors, 
+                                best_dist, best_path)
+
+        # If we have found a valid path, update the best one
+        if new_path is not None:
+            new_total_dist = new_path[1]
+
+            if best_dist is None or new_total_dist < best_dist:
+                best_path = new_path[0]
+                best_dist = new_total_dist
+
+    if best_path is None:
+        return None
+    else:
+        return [best_path, best_dist, None]
 
 
 # Problem 3c: Implement directed_dfs
@@ -128,10 +198,28 @@ def directed_dfs(digraph, start, end, max_total_dist, max_dist_outdoors):
         If there exists no path that satisfies max_total_dist and
         max_dist_outdoors constraints, then raises a ValueError.
     """
-    # TODO
-    pass
+    startNode = Node(start)
+    endNode = Node(end)
 
+    if not (digraph.has_node(startNode) and digraph.has_node(endNode)):
+        raise ValueError("Node not found in Graph!")
+    
+    # Get best path
+    best_path = get_best_path(digraph, startNode, endNode,
+                              [[], 0, 0], max_dist_outdoors,
+                              None, None)
+    
+    # No valid path could be found
+    if best_path is None:
+        raise ValueError("A valid path could not be found.")
+    
+    total_dist = best_path[1]
 
+    if total_dist > max_total_dist:
+        raise ValueError("No path can be found to satisfy constraints!")
+
+    return best_path[0]
+    
 # ================================================================
 # Begin tests -- you do not need to modify anything below this line
 # ================================================================
