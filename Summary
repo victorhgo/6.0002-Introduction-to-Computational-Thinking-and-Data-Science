@@ -1,12 +1,13 @@
 # 6.0002 - Introduction to Computational Thinking and Data Science
 
 ## Lectures
+
 - [X] Lecture 1 - Introduction and Optimization Problems
 - [X] Lecture 2 - Optimization Problems
 - [X] Lecture 3 - Graph-theoretic Models
 - [X] Lecture 4 - Stochastic Thinking
-- [ ] Lecture 5 - Random Walks
-- [ ] Lecture 6 - Monte Carlo Simulation
+- [X] Lecture 5 - Random Walks
+- [X] Lecture 6 - Monte Carlo Simulation
 - [ ] Lecture 7 - Confidence Intervals
 - [ ] Lecture 8 - Sampling and Standard Error
 - [ ] Lecture 9 - Understanding Experimental Data
@@ -18,6 +19,7 @@
 - [ ] Lecture 15 - Statistical Sins and Wrap Up
 
 ## Problem Sets
+
 - [X] Pset 1 - Completed on 14th September 2025 
 - [X] Pset 2 - Completed on 08th October 2025
 - [ ] Pset 3 - 
@@ -34,7 +36,7 @@ Textbook used in the lectures: _Introduction to Computation and Programming Usin
 - [X] Chapter 13 - Lecture 2
 - [X] Chapter 12.2 - Lecture 3
 - [X] Chapter 14 - Lecture 4
-- [ ] Chapter 11, Chapter 14 - Lecture 5
+- [X] Chapter 11, Chapter 14 - Lecture 5
 - [ ] Chapter 15.1–15.4, Chapter 16 - Lecture 6
 - [ ] Chapter 16.4, Chapter 17 - Lecture 7
 - [ ] Chapter 17 - Lecture 8

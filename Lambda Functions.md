@@ -69,8 +69,6 @@ print(f"Triple: {triple(3)}")
 
 *Solutions at /Lecture Codes/Lambda Function/*
 
-**Beginner**
-
 - [X] - Write a lambda function to add 10 to a given number.
 
 - [X] - Write a lambda function to check if a number is even.
@@ -80,8 +78,6 @@ print(f"Triple: {triple(3)}")
 - [X] - Write a lambda function to extract the last character of a string.
 
 - [X] - Write a lambda function to check if a string is a palindrome.
-
-**Intermediate Level**
 
 - [X] - Use ```map()``` with a lambda to convert a list of temperatures from Celsius to Fahrenheit.
 
@@ -93,19 +89,9 @@ print(f"Triple: {triple(3)}")
 
 - [X] - Write a lambda that sorts words in a sentence by length.
 
-**Advanced Level**
-
 - [X] - Use a lambda with ```map()``` to capitalize the first letter of each word in a list.
 
 - [X] - Use a lambda with ```filter()``` to remove all words shorter than 4 characters from a list.
-
-- [ ] - Write a lambda to check if a given year is a leap year.
-
-- [ ] - Use a lambda inside ```sorted()``` to sort a dictionary by its values.
-
-- [ ] - Write a lambda that takes a number and returns "Fizz" if divisible by 3, "Buzz" if divisible by 5, "FizzBuzz" if divisible by both, otherwise the number itself.
-
-**Challenges**
 
 - [ ] - Write a lambda to flatten a nested list ```[[1,2],[3,4],[5,6]] → [1,2,3,4,5,6]```.
 
